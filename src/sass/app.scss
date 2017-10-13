@@ -1,0 +1,16 @@
+@import '~bootstrap/scss/bootstrap';
+body {
+    div.container {
+        margin-top: 45px;
+    }
+    #alertas {
+        display: none;
+        margin: 15px inherit;
+    }
+    #resultado {
+        display: none;
+        margin: 15px inherit;
+        height: 500px;
+        width: 100%;
+    }
+}
