@@ -1,8 +1,9 @@
 import "../sass/app.scss";
 import jQuery from "jquery";
+import Clipboard from 'clipboard';
 const cheerio = require('cheerio');
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
     const document_handler = new Handler();
 
@@ -46,7 +47,17 @@ class Handler {
         const resultado = document.getElementById('resultado');
         resultado.innerHTML = data.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-        jQuery(resultado).slideDown('slow');
+        const copybtn = document.getElementById('copiar');
+        const clipbrd = new Clipboard(copybtn, {
+            text: function (trigger) {
+                return data;
+            }
+        });
+
+        const preview = document.getElementById('preview');
+        preview.contentWindow.document.write(data);
+
+        jQuery(document.getElementById('out')).slideDown('slow');
     }
 
     replace(mime, data) {
@@ -57,7 +68,7 @@ class Handler {
         const $ = cheerio.load(data);
 
         $('img').each((index, element) => {
-            element.attribs.scr = "data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg' viewBox%3D'0 0 200 150'%2F%3E";
+            element.attribs.src = "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2010%2010%27%20style%3D%27background-color%3A%20%23555%3B%27%2F%3E";
         })
 
         return $.html();
